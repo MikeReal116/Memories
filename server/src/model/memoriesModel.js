@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 const memorySchema = new mongoose.Schema({
-  name: {
+  creator: String,
+  title: {
     type: String,
     required: true
   },
