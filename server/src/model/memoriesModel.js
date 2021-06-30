@@ -1,15 +1,28 @@
 import mongoose from 'mongoose';
 
-const memorySchema = new mongoose.Schema({
-  creator: String,
-  title: {
-    type: String,
-    required: true
+const memorySchema = new mongoose.Schema(
+  {
+    creator: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    image: {
+      type: String
+    },
+    tags: [String]
   },
-  description: String,
-  image: String,
-  tags: [String]
-});
+  {
+    timestamps: true
+  }
+);
 
 const Memory = mongoose.model('Memory', memorySchema);
 

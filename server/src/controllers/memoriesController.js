@@ -21,11 +21,6 @@ export const getMemory = async (req, res) => {
 
 export const updateMemory = async (req, res) => {
   const { id } = req.params;
-  const requiredFields = ['name', 'description', 'image', 'tags'];
-  const updateKeys = Object.keys(req.body);
-  const isValid = updateKeys.every((key) => requiredFields.includes(key));
-
-  if (!isValid) return res.status(400).send('invalid update fields');
 
   try {
     const memory = await Memory.findByIdAndUpdate(id, req.body);
