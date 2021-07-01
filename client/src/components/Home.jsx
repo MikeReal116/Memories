@@ -14,7 +14,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getMemories());
-  }, [dispatch, memoryId]);
+  }, [dispatch]);
 
   const handleMemoryId = (id) => {
     setMemoryId(id);

@@ -87,7 +87,8 @@ const MemoryCard = ({
         </Typography>
         <Typography paragraph>{description}</Typography>
         <Typography>
-          {tags.map((tag) => tag.split(',').map((item) => ` #${item}`))}
+          {tags.length &&
+            tags.map((tag) => tag.split(',').map((item) => ` #${item}`))}
         </Typography>
       </CardContent>
       <CardActions>

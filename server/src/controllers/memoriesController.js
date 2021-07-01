@@ -23,7 +23,10 @@ export const updateMemory = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const memory = await Memory.findByIdAndUpdate(id, req.body);
+    const memory = await Memory.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true
+    });
     res.send(memory);
   } catch (error) {
     res.status(500).send(error);

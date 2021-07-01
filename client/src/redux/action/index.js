@@ -1,5 +1,10 @@
 import axios from '../../axios/axios';
-import { DELETE_MEMORY, GET_MEMORIES, POST_MEMORY } from './types';
+import {
+  DELETE_MEMORY,
+  GET_MEMORIES,
+  POST_MEMORY,
+  UPDATE_MEMORY
+} from './types';
 
 export const PostMemory = (memories) => async (dispatch) => {
   try {
@@ -22,7 +27,7 @@ export const getMemories = () => async (dispatch) => {
 export const updateMemory = (id, update) => async (dispatch) => {
   try {
     const { data } = await axios.patch(`/memories/${id}`, update);
-    dispatch({ type: GET_MEMORIES, payload: data });
+    dispatch({ type: UPDATE_MEMORY, payload: data });
   } catch (error) {
     console.log(error);
   }
