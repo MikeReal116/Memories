@@ -43,3 +43,19 @@ export const deleteMemory = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+export const likeMemory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const memory = await Memory.findById(id);
+    if (!memory) return res.status(404).send('Not found');
+    if (memory.likes.includes(req.userId)) {
+      memory.likes = memory.likes.filter((like) => like === req.userId);
+      await memory.save();
+    } else {
+      memory.like.push(req.userId);
+      await memory.save();
+    }
+    res.status(200).send();
+  } catch (error) {}
+};

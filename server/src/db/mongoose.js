@@ -7,7 +7,8 @@ export default mongoose
   .connect(process.env.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
   })
   .then(() => console.log('db connected'))
   .catch((error) => console.log(error));

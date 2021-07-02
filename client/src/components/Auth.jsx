@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import Input from './UI/Input';
-import { gooleLogin } from '../redux/action';
+import { googleLogin, login, signup } from '../redux/action';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,12 +40,21 @@ const useStyles = makeStyles((theme) => ({
 const Auth = () => {
   const [signIn, setSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    repeatPassword: ''
+  });
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
   const clientId = process.env.REACT_APP_CLIENT_ID;
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleClickShowPassword = () => {
     setShowPassword((prevValue) => !prevValue);
@@ -58,7 +67,7 @@ const Auth = () => {
   const onSuccess = async (res) => {
     const token = res?.tokenId;
     const profile = res?.profileObj;
-    dispatch(gooleLogin({ token, profile }));
+    dispatch(googleLogin({ token, profile }));
     history.push('/');
   };
 
@@ -66,6 +75,16 @@ const Auth = () => {
     console.log(error);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (signIn) {
+      dispatch(
+        login({ email: formData.email, password: formData.password }, history)
+      );
+    } else {
+      dispatch(signup(formData, history));
+    }
+  };
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -76,7 +95,12 @@ const Auth = () => {
         <Typography variant='h5' component='h1'>
           {signIn ? 'Sign in' : 'Sign up'}
         </Typography>
-        <form noValidate autoComplete='off' className={classes.form}>
+        <form
+          noValidate
+          autoComplete='off'
+          className={classes.form}
+          onSubmit={handleSubmit}
+        >
           <Grid container spacing={2}>
             {!signIn && (
               <>
@@ -84,29 +108,38 @@ const Auth = () => {
                   name='firstName'
                   label='FirstName'
                   onChange={handleChange}
+                  value={formData.firstName}
                   half
                 />
                 <Input
                   name='lastName'
                   label='LastName'
                   onChange={handleChange}
+                  value={formData.lastName}
                   half
                 />
               </>
             )}
-            <Input name='email' label='Email' onChange={handleChange} />
+            <Input
+              name='email'
+              label='Email'
+              onChange={handleChange}
+              value={formData.email}
+            />
             <Input
               name='password'
               label='Password'
               onChange={handleChange}
               handleClickShowPassword={handleClickShowPassword}
               type={!showPassword ? 'password' : 'text'}
+              value={formData.password}
             />
             {!signIn && (
               <Input
                 name='repeatPassword'
                 label='Repeat Password'
                 onChange={handleChange}
+                type='password'
               />
             )}
           </Grid>

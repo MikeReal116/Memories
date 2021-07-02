@@ -2,7 +2,7 @@ import axios from '../../axios/axios';
 import {
   DELETE_MEMORY,
   GET_MEMORIES,
-  GOOGLE_AUTH,
+  AUTH,
   LOGOUT,
   POST_MEMORY,
   UPDATE_MEMORY
@@ -44,9 +44,27 @@ export const deleteMemory = (id) => async (dispatch) => {
   }
 };
 
-export const gooleLogin = (data) => {
+export const signup = (values, history) => async (dispatch) => {
+  try {
+    const { data } = await axios.post('/user/signup', values);
+    dispatch({ type: AUTH, payload: data });
+    history.push('/');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const login = (values, history) => async (dispatch) => {
+  try {
+    const { data } = await axios.post('user/login', values);
+    dispatch({ type: AUTH, payload: data });
+    history.push('/');
+  } catch (error) {}
+};
+
+export const googleLogin = (data) => {
   return {
-    type: GOOGLE_AUTH,
+    type: AUTH,
     payload: data
   };
 };

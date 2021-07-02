@@ -17,7 +17,8 @@ const memorySchema = new mongoose.Schema(
     image: {
       type: String
     },
-    tags: [String]
+    tags: [String],
+    likes: [String]
   },
   {
     timestamps: true

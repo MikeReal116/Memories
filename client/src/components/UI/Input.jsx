@@ -12,7 +12,8 @@ const Input = ({
   label,
   type,
   handleClickShowPassword,
-  onChange
+  onChange,
+  value
 }) => {
   return (
     <Grid item xm={12} sm={half ? 6 : 12}>
@@ -21,6 +22,7 @@ const Input = ({
         variant='outlined'
         required
         fullWidth
+        value={value}
         onChange={onChange}
         label={label}
         type={type}

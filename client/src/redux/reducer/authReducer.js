@@ -1,4 +1,4 @@
-import { GOOGLE_AUTH, LOGOUT } from '../action/types';
+import { AUTH, LOGOUT } from '../action/types';
 
 const initialState = {
   user: null
@@ -6,7 +6,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GOOGLE_AUTH:
+    case AUTH:
       return { ...state, user: action.payload };
     case LOGOUT:
       return { ...state, user: null };
