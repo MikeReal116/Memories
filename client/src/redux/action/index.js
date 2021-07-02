@@ -2,6 +2,8 @@ import axios from '../../axios/axios';
 import {
   DELETE_MEMORY,
   GET_MEMORIES,
+  GOOGLE_AUTH,
+  LOGOUT,
   POST_MEMORY,
   UPDATE_MEMORY
 } from './types';
@@ -40,4 +42,17 @@ export const deleteMemory = (id) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const gooleLogin = (data) => {
+  return {
+    type: GOOGLE_AUTH,
+    payload: data
+  };
+};
+
+export const logout = () => {
+  return {
+    type: LOGOUT
+  };
 };

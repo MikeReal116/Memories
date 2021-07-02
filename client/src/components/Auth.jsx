@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { GoogleLogin } from 'react-google-login';
+import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import Input from './UI/Input';
+import { gooleLogin } from '../redux/action';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,7 +40,10 @@ const useStyles = makeStyles((theme) => ({
 const Auth = () => {
   const [signIn, setSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
+  const clientId = process.env.REACT_APP_CLIENT_ID;
 
   const handleChange = () => {};
 
@@ -46,6 +53,17 @@ const Auth = () => {
 
   const handleClickToggleSignIn = () => {
     setSignIn((prevValue) => !prevValue);
+  };
+
+  const onSuccess = async (res) => {
+    const token = res?.tokenId;
+    const profile = res?.profileObj;
+    dispatch(gooleLogin({ token, profile }));
+    history.push('/');
+  };
+
+  const onFailure = (error) => {
+    console.log(error);
   };
 
   return (
@@ -116,6 +134,22 @@ const Auth = () => {
           </Grid>
         </form>
       </div>
+      <GoogleLogin
+        clientId={clientId}
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        render={(renderProps) => (
+          <Button
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+            variant='contained'
+            fullWidth
+          >
+            Login with Google
+          </Button>
+        )}
+        cookiePolicy={'single_host_origin'}
+      />
     </Container>
   );
 };

@@ -8,6 +8,9 @@ const middlewares = [thunk];
 const initialState = {
   memories: {
     memories: []
+  },
+  auth: {
+    user: null
   }
 };
 
