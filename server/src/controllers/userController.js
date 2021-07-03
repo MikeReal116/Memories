@@ -7,7 +7,7 @@ export const login = async (req, res) => {
   const { password, email } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).send('Unable to login');
+    if (!user) return res.status(404).json('Unable to login');
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) return res.status(400).send('Unable to login');
 
@@ -18,7 +18,8 @@ export const login = async (req, res) => {
     res.send({
       profile: {
         givenName: user.firstName,
-        name: `${user.firstName} ${user.lastName}`
+        name: `${user.firstName} ${user.lastName}`,
+        id: user._id
       },
       token
     });
@@ -50,7 +51,8 @@ export const signup = async (req, res) => {
     res.status(201).send({
       profile: {
         givenName: user.firstName,
-        name: `${user.firstName} ${user.lastName}`
+        name: `${user.firstName} ${user.lastName}`,
+        id: user._id
       },
       token
     });

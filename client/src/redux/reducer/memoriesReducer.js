@@ -2,7 +2,8 @@ import {
   DELETE_MEMORY,
   GET_MEMORIES,
   POST_MEMORY,
-  UPDATE_MEMORY
+  UPDATE_MEMORY,
+  LIKE
 } from '../action/types';
 
 const initialState = {
@@ -27,6 +28,13 @@ const memoriesReducer = (state = initialState, action) => {
         ...state,
         memories: state.memories.filter(
           (memory) => memory._id !== action.payload
+        )
+      };
+    case LIKE:
+      return {
+        ...state,
+        memories: state.memories.map((memory) =>
+          memory._id === action.payload._id ? action.payload : memory
         )
       };
     default:

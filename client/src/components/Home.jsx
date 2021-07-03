@@ -39,6 +39,8 @@ const Home = () => {
                       createdAt={memory.createdAt}
                       id={memory._id}
                       setMemoryId={handleMemoryId}
+                      creatorId={memory.creatorId}
+                      likes={memory.likes}
                     />
                   </Grid>
                 ))

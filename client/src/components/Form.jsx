@@ -28,7 +28,6 @@ const useStyle = makeStyles((theme) => ({
 
 const Form = ({ memoryId, setMemoryId }) => {
   const [formData, setFormData] = useState({
-    creator: '',
     title: '',
     description: '',
     tags: '',
@@ -40,6 +39,8 @@ const Form = ({ memoryId, setMemoryId }) => {
       ? state.memories.memories.find((memory) => memory._id === memoryId)
       : null
   );
+
+  const user = useSelector((state) => state.auth?.user?.profile?.givenName);
 
   useEffect(() => {
     currentMemory && setFormData(currentMemory);
@@ -59,13 +60,12 @@ const Form = ({ memoryId, setMemoryId }) => {
       clear();
       return;
     }
-    dispatch(PostMemory(formData));
+    dispatch(PostMemory({ ...formData, creator: user }));
     clear();
   };
 
   const clear = () => {
     setFormData({
-      creator: '',
       title: '',
       description: '',
       tags: '',
@@ -81,88 +81,81 @@ const Form = ({ memoryId, setMemoryId }) => {
       : false;
   return (
     <Paper className={classes.paper}>
-      <form
-        autoComplete='off'
-        noValidate
-        className={classes.form}
-        onSubmit={handleSubmit}
-      >
-        <Typography variant='h6'>
-          {' '}
-          {currentMemory ? 'Edit memory' : 'Create some memories'}
-        </Typography>
-        <TextField
-          name='creator'
-          variant='outlined'
-          label='Creator'
-          fullWidth
-          required={true}
-          value={formData.creator}
-          onChange={handleChange}
-          className={classes.input}
-        />
-        <TextField
-          name='title'
-          variant='outlined'
-          label='Title'
-          fullWidth
-          required={true}
-          value={formData.title}
-          onChange={handleChange}
-          className={classes.input}
-        />
-        <TextField
-          name='description'
-          variant='outlined'
-          label='Description'
-          required={true}
-          fullWidth
-          value={formData.description}
-          onChange={handleChange}
-          className={classes.input}
-        />
-        <TextField
-          name='tags'
-          variant='outlined'
-          label='Tags'
-          fullWidth
-          value={formData.tags}
-          onChange={handleChange}
-          className={classes.input}
-        />
-        <div className={classes.fileInput}>
-          <FileBase
-            type='file'
-            multiple={false}
-            onDone={(base64) =>
-              +base64.size.split(' ')[0] > 1000
-                ? alert('Select a file less than 1mb')
-                : setFormData({ ...formData, image: base64.base64 })
-            }
+      {user ? (
+        <form
+          autoComplete='off'
+          noValidate
+          className={classes.form}
+          onSubmit={handleSubmit}
+        >
+          <Typography variant='h6'>
+            {currentMemory ? 'Edit memory' : 'Create some memories'}
+          </Typography>
+          <TextField
+            name='title'
+            variant='outlined'
+            label='Title'
+            fullWidth
+            required={true}
+            value={formData.title}
+            onChange={handleChange}
+            className={classes.input}
           />
-        </div>
-        <Button
-          variant='contained'
-          color='primary'
-          size='small'
-          fullWidth
-          className={classes.submitBtn}
-          type='submit'
-          disabled={disabled}
-        >
-          Submit
-        </Button>
-        <Button
-          variant='contained'
-          color='secondary'
-          size='small'
-          fullWidth
-          disabled={disabled}
-          onClick={clear}
-        >
-          Clear
-        </Button>
-      </form>
+          <TextField
+            name='description'
+            variant='outlined'
+            label='Description'
+            required={true}
+            fullWidth
+            value={formData.description}
+            onChange={handleChange}
+            className={classes.input}
+          />
+          <TextField
+            name='tags'
+            variant='outlined'
+            label='Tags'
+            fullWidth
+            value={formData.tags}
+            onChange={handleChange}
+            className={classes.input}
+          />
+          <div className={classes.fileInput}>
+            <FileBase
+              type='file'
+              multiple={false}
+              onDone={(base64) =>
+                +base64.size.split(' ')[0] > 1000
+                  ? alert('Select a file less than 1mb')
+                  : setFormData({ ...formData, image: base64.base64 })
+              }
+            />
+          </div>
+          <Button
+            variant='contained'
+            color='primary'
+            size='small'
+            fullWidth
+            className={classes.submitBtn}
+            type='submit'
+            disabled={disabled}
+          >
+            Submit
+          </Button>
+          <Button
+            variant='contained'
+            color='secondary'
+            size='small'
+            fullWidth
+            disabled={disabled}
+            onClick={clear}
+          >
+            Clear
+          </Button>
+        </form>
+      ) : (
+        <Typography variant='h6'> Login to create and like post</Typography>
+      )}
     </Paper>
   );
 };

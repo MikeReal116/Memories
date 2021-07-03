@@ -4,3 +4,4 @@ export const UPDATE_MEMORY = 'UPDATE_MEMORY';
 export const DELETE_MEMORY = 'DELETE_MEMORY';
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
+export const LIKE = 'LIKE';

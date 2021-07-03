@@ -6,6 +6,9 @@ const memorySchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    creatorId: {
+      type: String
+    },
     title: {
       type: String,
       required: true

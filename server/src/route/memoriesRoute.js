@@ -15,6 +15,6 @@ router.post('/', auth, postMemory);
 router.get('/', getMemory);
 router.patch('/:id', auth, updateMemory);
 router.delete('/:id', auth, deleteMemory);
-router.patch('/:id/likeMemory', auth, likeMemory);
+router.patch('/:id/like_memory', auth, likeMemory);
 
 export default router;

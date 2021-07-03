@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core';
@@ -32,6 +33,16 @@ const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  useEffect(() => {
+    const token = user?.token;
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        dispatch(logout());
+      }
+    }
+  }, [dispatch, user?.token]);
 
   const handleClickLogout = () => {
     dispatch(logout());

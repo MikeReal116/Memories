@@ -5,7 +5,8 @@ import {
   AUTH,
   LOGOUT,
   POST_MEMORY,
-  UPDATE_MEMORY
+  UPDATE_MEMORY,
+  LIKE
 } from './types';
 
 export const PostMemory = (memories) => async (dispatch) => {
@@ -73,4 +74,11 @@ export const logout = () => {
   return {
     type: LOGOUT
   };
+};
+
+export const likeMemory = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.patch(`/memories/${id}/like_memory`);
+    dispatch({ type: LIKE, payload: data });
+  } catch (error) {}
 };

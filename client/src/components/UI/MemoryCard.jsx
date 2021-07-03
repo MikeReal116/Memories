@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,8 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 
-import { deleteMemory } from '../../redux/action';
+import { deleteMemory, likeMemory } from '../../redux/action';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -37,6 +39,19 @@ const useStyles = makeStyles((theme) => ({
     top: '3%',
     right: '5%',
     color: '#fff'
+  },
+  cardIcons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  likeText: {
+    color: '#3f51b5',
+    fontSize: 12
+  },
+  like: {
+    display: 'flex',
+    alignItems: 'center'
   }
 }));
 
@@ -48,8 +63,12 @@ const MemoryCard = ({
   createdAt,
   creator,
   id,
-  setMemoryId
+  setMemoryId,
+  creatorId,
+  likes
 }) => {
+  const user = useSelector((state) => state.auth.user?.profile);
+
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -59,6 +78,25 @@ const MemoryCard = ({
 
   const handleDelete = (id) => {
     dispatch(deleteMemory(id));
+  };
+
+  const handleClickLike = (id) => {
+    dispatch(likeMemory(id));
+  };
+
+  const showLikeDetail = () => {
+    if (!likes.length) return;
+    if (likes.includes(user.id || user.googleId) && likes.length === 1) {
+      return user.givenName;
+    }
+    if (likes.includes(user.id || user.googleId) && likes.length > 1) {
+      return `You and ${
+        likes.length === 2 ? ` one other` : likes.length - 1` others`
+      }`;
+    }
+    if (!likes.includes(user.id || user.googleId) && likes.length) {
+      return `${likes.length === 1 ? `1 like` : likes.length`likes`}`;
+    }
   };
 
   return (
@@ -75,12 +113,14 @@ const MemoryCard = ({
         <Typography>{creator}</Typography>
         <Typography>{moment(createdAt).fromNow()}</Typography>
       </div>
-      <IconButton
-        className={classes.imageoverlay2}
-        onClick={() => handleEditCard(id)}
-      >
-        <MoreVertIcon />
-      </IconButton>
+      {user && creatorId === (user.id || user.googleId) && (
+        <IconButton
+          className={classes.imageoverlay2}
+          onClick={() => handleEditCard(id)}
+        >
+          <MoreVertIcon />
+        </IconButton>
+      )}
       <CardContent>
         <Typography variant='h6' color='textSecondary' paragraph>
           {title}
@@ -91,10 +131,24 @@ const MemoryCard = ({
             tags.map((tag) => tag.split(',').map((item) => ` #${item}`))}
         </Typography>
       </CardContent>
-      <CardActions>
-        <IconButton onClick={() => handleDelete(id)}>
-          <DeleteIcon />
-        </IconButton>
+      <CardActions className={classes.cardIcons}>
+        {user && (
+          <div className={classes.like}>
+            <IconButton onClick={() => handleClickLike(id)}>
+              {likes.includes(user.id || user.googleId) ? (
+                <ThumbUpIcon color='primary' />
+              ) : (
+                <ThumbUpOutlinedIcon />
+              )}
+            </IconButton>
+            <span className={classes.likeText}>{showLikeDetail()}</span>
+          </div>
+        )}
+        {user && creatorId === (user.id || user.googleId) && (
+          <IconButton onClick={() => handleDelete(id)}>
+            <DeleteIcon />
+          </IconButton>
+        )}
       </CardActions>
     </Card>
   );
