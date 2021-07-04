@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Auth = () => {
-  const [signIn, setSignIn] = useState(false);
+  const [signIn, setSignIn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',

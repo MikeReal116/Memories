@@ -63,3 +63,16 @@ export const likeMemory = async (req, res) => {
     });
   }
 };
+
+export const getMemoryBySearch = async (req, res) => {
+  const title = new RegExp(req.query.searchQuery, 'i');
+  const tags = req.query.tags;
+  try {
+    const memories = await Memory.find({
+      $or: [{ title }, { tags: { $in: tags.split(',') } }]
+    });
+    res.send(memories);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};

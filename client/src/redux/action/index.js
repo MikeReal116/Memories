@@ -6,7 +6,8 @@ import {
   LOGOUT,
   POST_MEMORY,
   UPDATE_MEMORY,
-  LIKE
+  LIKE,
+  GET_MEMORIES_BY_SEARCH
 } from './types';
 
 export const PostMemory = (memories) => async (dispatch) => {
@@ -81,4 +82,16 @@ export const likeMemory = (id) => async (dispatch) => {
     const { data } = await axios.patch(`/memories/${id}/like_memory`);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {}
+};
+
+export const getMemoriesBySearch = (obj) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      `/memories/search?searchQuery=${obj.searchQuery}&tags=${obj.tags}`
+    );
+    dispatch({ type: GET_MEMORIES_BY_SEARCH, payload: data });
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
 };

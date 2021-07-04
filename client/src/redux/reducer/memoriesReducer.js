@@ -3,7 +3,8 @@ import {
   GET_MEMORIES,
   POST_MEMORY,
   UPDATE_MEMORY,
-  LIKE
+  LIKE,
+  GET_MEMORIES_BY_SEARCH
 } from '../action/types';
 
 const initialState = {
@@ -13,6 +14,8 @@ const initialState = {
 const memoriesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_MEMORIES:
+      return { ...state, memories: action.payload };
+    case GET_MEMORIES_BY_SEARCH:
       return { ...state, memories: action.payload };
     case POST_MEMORY:
       return { ...state, memories: [...state.memories, action.payload] };

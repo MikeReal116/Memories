@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
+    maxWidth: 345
   },
   imageoverlay1: {
     position: 'absolute',
@@ -52,6 +53,19 @@ const useStyles = makeStyles((theme) => ({
   like: {
     display: 'flex',
     alignItems: 'center'
+  },
+  title: {
+    height: '18%'
+  },
+  description: {
+    fontSize: '15px',
+    flexGrow: 1
+  },
+  tags: {
+    height: '10%',
+    marginBottom: 0,
+    fontSize: '12px',
+    color: '#989898'
   }
 }));
 
@@ -100,7 +114,7 @@ const MemoryCard = ({
   };
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} elevation={6}>
       <CardMedia
         className={classes.media}
         image={
@@ -122,11 +136,18 @@ const MemoryCard = ({
         </IconButton>
       )}
       <CardContent>
-        <Typography variant='h6' color='textSecondary' paragraph>
+        <Typography
+          variant='h6'
+          color='textSecondary'
+          paragraph
+          className={classes.title}
+        >
           {title}
         </Typography>
-        <Typography paragraph>{description}</Typography>
-        <Typography>
+        <Typography paragraph className={classes.description}>
+          {description}
+        </Typography>
+        <Typography className={classes.tags}>
           {tags.length &&
             tags.map((tag) => tag.split(',').map((item) => ` #${item}`))}
         </Typography>
