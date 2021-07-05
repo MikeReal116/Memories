@@ -27,7 +27,8 @@ const setToLocal = (state) => {
 
 const initialState = {
   memories: {
-    memories: []
+    memories: [],
+    loading: false
   },
   auth: {
     user: loadFromLocal()

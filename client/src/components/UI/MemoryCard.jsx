@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     position: 'relative',
-    maxWidth: 345
+    height: '100%'
   },
   imageoverlay1: {
     position: 'absolute',
@@ -54,15 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  title: {
-    height: '18%'
-  },
-  description: {
-    fontSize: '15px',
-    flexGrow: 1
-  },
   tags: {
-    height: '10%',
     marginBottom: 0,
     fontSize: '12px',
     color: '#989898'
@@ -136,15 +128,15 @@ const MemoryCard = ({
         </IconButton>
       )}
       <CardContent>
-        <Typography
-          variant='h6'
-          color='textSecondary'
-          paragraph
-          className={classes.title}
-        >
+        <Typography variant='h6' color='textSecondary' paragraph>
           {title}
         </Typography>
-        <Typography paragraph className={classes.description}>
+        <Typography
+          paragraph
+          variant='body2'
+          color='textSecondary'
+          component='p'
+        >
           {description}
         </Typography>
         <Typography className={classes.tags}>

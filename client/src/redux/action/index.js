@@ -7,24 +7,39 @@ import {
   POST_MEMORY,
   UPDATE_MEMORY,
   LIKE,
-  GET_MEMORIES_BY_SEARCH
+  GET_MEMORIES_BY_SEARCH,
+  LOADING,
+  FINISH_LOADING
 } from './types';
 
+export const startLoading = () => {
+  return { type: LOADING };
+};
+
+export const finishLoading = () => {
+  return { type: FINISH_LOADING };
+};
 export const PostMemory = (memories) => async (dispatch) => {
   try {
+    dispatch(startLoading());
     const { data } = await axios.post('/memories', memories);
     dispatch({ type: POST_MEMORY, payload: data });
+    dispatch(finishLoading());
   } catch (error) {
     console.log(error);
+    dispatch(finishLoading());
   }
 };
 
 export const getMemories = () => async (dispatch) => {
   try {
+    dispatch(startLoading());
     const { data } = await axios.get('/memories');
     dispatch({ type: GET_MEMORIES, payload: data });
+    dispatch(finishLoading());
   } catch (error) {
     console.log(error);
+    dispatch(finishLoading());
   }
 };
 
@@ -86,12 +101,16 @@ export const likeMemory = (id) => async (dispatch) => {
 
 export const getMemoriesBySearch = (obj) => async (dispatch) => {
   try {
+    dispatch(startLoading());
     const { data } = await axios.get(
-      `/memories/search?searchQuery=${obj.searchQuery}&tags=${obj.tags}`
+      `/memories/search?searchQuery=${obj.searchQuery || `none`}&tags=${
+        obj.tags
+      }`
     );
     dispatch({ type: GET_MEMORIES_BY_SEARCH, payload: data });
-    console.log(data);
+    dispatch(finishLoading());
   } catch (error) {
     console.log(error);
+    dispatch(finishLoading());
   }
 };

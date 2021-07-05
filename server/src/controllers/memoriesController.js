@@ -1,7 +1,11 @@
 import Memory from '../model/memoriesModel.js';
 
 export const postMemory = async (req, res) => {
-  const memory = new Memory({ ...req.body, creatorId: req.userId });
+  const memory = new Memory({
+    ...req.body,
+    creatorId: req.userId,
+    tags: req.body.tags.split(',')
+  });
 
   try {
     await memory.save();
@@ -69,7 +73,7 @@ export const getMemoryBySearch = async (req, res) => {
   const tags = req.query.tags;
   try {
     const memories = await Memory.find({
-      $or: [{ title }, { tags: { $in: tags.split(',') } }]
+      $or: [{ tags: { $in: tags.split(',') } }, { title }]
     });
     res.send(memories);
   } catch (error) {
