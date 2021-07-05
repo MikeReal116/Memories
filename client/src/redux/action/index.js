@@ -9,7 +9,8 @@ import {
   LIKE,
   GET_MEMORIES_BY_SEARCH,
   LOADING,
-  FINISH_LOADING
+  FINISH_LOADING,
+  GET_MEMORY
 } from './types';
 
 export const startLoading = () => {
@@ -108,6 +109,18 @@ export const getMemoriesBySearch = (obj) => async (dispatch) => {
       }`
     );
     dispatch({ type: GET_MEMORIES_BY_SEARCH, payload: data });
+    dispatch(finishLoading());
+  } catch (error) {
+    console.log(error);
+    dispatch(finishLoading());
+  }
+};
+
+export const getMemory = (id) => async (dispatch) => {
+  try {
+    dispatch(startLoading());
+    const { data } = await axios.get(`/memories/${id}`);
+    dispatch({ type: GET_MEMORY, payload: data });
     dispatch(finishLoading());
   } catch (error) {
     console.log(error);

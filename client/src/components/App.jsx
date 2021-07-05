@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Navbar from './Navbar';
 import Auth from './Auth';
+import PageDetail from './PageDetail';
 
 const App = () => {
   return (
@@ -18,6 +19,9 @@ const App = () => {
         </Route>
         <Route path='/auth' exact>
           <Auth />
+        </Route>
+        <Route path='/memories/:id' exact>
+          <PageDetail />
         </Route>
       </Switch>
     </BrowserRouter>

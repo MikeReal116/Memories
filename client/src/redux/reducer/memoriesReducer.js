@@ -6,7 +6,8 @@ import {
   LIKE,
   GET_MEMORIES_BY_SEARCH,
   LOADING,
-  FINISH_LOADING
+  FINISH_LOADING,
+  GET_MEMORY
 } from '../action/types';
 
 const initialState = {
@@ -22,6 +23,9 @@ const memoriesReducer = (state = initialState, action) => {
       return { ...state, loading: false };
     case GET_MEMORIES:
       return { ...state, memories: action.payload };
+    case GET_MEMORY: {
+      return { ...state, memory: action.payload };
+    }
     case GET_MEMORIES_BY_SEARCH:
       return { ...state, memories: action.payload };
     case POST_MEMORY:
