@@ -6,6 +6,9 @@ const memorySchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    creatorId: {
+      type: String
+    },
     title: {
       type: String,
       required: true
@@ -17,7 +20,8 @@ const memorySchema = new mongoose.Schema(
     image: {
       type: String
     },
-    tags: [String]
+    tags: [String],
+    likes: [String]
   },
   {
     timestamps: true
