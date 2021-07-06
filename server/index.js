@@ -13,6 +13,9 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ limit: '1mb', extended: true }));
 app.use('/memories', memoryRouter);
 app.use('/user', userRouter);
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 app.listen(PORT, () => {
   console.log('Server started on port 3001');
 });
