@@ -109,11 +109,11 @@ const MemoryCard = ({
     }
     if (likes.includes(user.id || user.googleId) && likes.length > 1) {
       return `You and ${
-        likes.length === 2 ? ` one other` : likes.length - 1` others`
+        likes.length === 2 ? ` one other` : likes.length - 1 + ` others`
       }`;
     }
     if (!likes.includes(user.id || user.googleId) && likes.length) {
-      return `${likes.length === 1 ? `1 like` : likes.length`likes`}`;
+      return `${likes.length === 1 ? `1 like` : likes.length + ` likes`}`;
     }
   };
 
