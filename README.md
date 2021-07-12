@@ -1,6 +1,6 @@
 # Memories
 
-#Project Description
+# Project Description
 A FullStack MERN project that allows authenticated users to post memories of places with images, edit them and also like memories created by other people. It also have gives
 users suggested memories similar to the detail memory they are currrently viewing. 
 
@@ -11,10 +11,10 @@ users suggested memories similar to the detail memory they are currrently viewin
 #Installation
 In the project directory, after installing all the packages, you can change to the server directory and run:
 
-### `npm run dev" to start the express server which in the project runs locally on port 3001
+ `npm run dev" to start the express server which in the project runs locally on port 3001
 
 You can change to the client directory and run:
-### `npm start" 
+`npm start" 
 The app is built using `create-react-app` so this command Runs the app in Development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. 
 The page will reload if you make edits.
 
