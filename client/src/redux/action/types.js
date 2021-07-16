@@ -8,3 +8,4 @@ export const LIKE = 'LIKE';
 export const GET_MEMORIES_BY_SEARCH = 'GET_MEMORIES_BY_SEARCH';
 export const LOADING = 'LOADING';
 export const FINISH_LOADING = 'FINISH_LOADING';
+export const GET_MEMORY = 'GET_MEMORY';

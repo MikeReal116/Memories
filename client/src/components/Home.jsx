@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Container, Grid } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
@@ -8,23 +9,39 @@ import Form from './Form';
 import MemoryCard from './UI/MemoryCard';
 import Search from './UI/Search';
 import { getMemories } from '../redux/action';
+import { getMemoriesBySearch } from '../redux/action';
 
 const Home = () => {
   const [memoryId, setMemoryId] = useState('');
   const dispatch = useDispatch();
   const { memories, loading } = useSelector((state) => state.memories);
+  const location = useLocation();
+
+  const url = new URLSearchParams(location.search);
+  const searchTermFromQuery = url.get('searchQuery');
+  const searchTagFromQuery = url.get('tags');
 
   useEffect(() => {
+    if (searchTermFromQuery || searchTagFromQuery) {
+      dispatch(
+        getMemoriesBySearch({
+          searchQuery: searchTermFromQuery,
+          tags: searchTagFromQuery
+        })
+      );
+      return;
+    }
     dispatch(getMemories());
-  }, [dispatch]);
+  }, [dispatch, searchTermFromQuery, searchTagFromQuery]);
+
   const handleMemoryId = (id) => {
     setMemoryId(id);
   };
 
+  if (loading) return <CircularProgress />;
   return (
     <Container maxWidth='xl'>
       <Container maxWidth='xl'>
-        {loading && <CircularProgress />}
         <Grid container justify='space-between' spacing={3}>
           <Grid item xs={12} sm={6} md={8}>
             <Grid container spacing={2}>

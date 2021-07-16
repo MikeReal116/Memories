@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,14 +21,20 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '56.25%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    backgroundBlendMode: 'darken'
+    backgroundBlendMode: 'darken',
+    cursor: 'pointer'
   },
   card: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     position: 'relative',
-    height: '100%'
+    height: '100%',
+    transition: '.2s ease-out',
+    '&:hover': {
+      zIndex: 1,
+      opacity: 0.8
+    }
   },
   imageoverlay1: {
     position: 'absolute',
@@ -76,6 +83,7 @@ const MemoryCard = ({
   const user = useSelector((state) => state.auth.user?.profile);
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
 
   const handleEditCard = (memoryId) => {
@@ -90,6 +98,10 @@ const MemoryCard = ({
     dispatch(likeMemory(id));
   };
 
+  const handleClickPageDetail = (id) => {
+    history.push(`/memories/${id}`);
+  };
+
   const showLikeDetail = () => {
     if (!likes.length) return;
     if (likes.includes(user.id || user.googleId) && likes.length === 1) {
@@ -97,11 +109,11 @@ const MemoryCard = ({
     }
     if (likes.includes(user.id || user.googleId) && likes.length > 1) {
       return `You and ${
-        likes.length === 2 ? ` one other` : likes.length - 1` others`
+        likes.length === 2 ? ` one other` : likes.length - 1 + ` others`
       }`;
     }
     if (!likes.includes(user.id || user.googleId) && likes.length) {
-      return `${likes.length === 1 ? `1 like` : likes.length`likes`}`;
+      return `${likes.length === 1 ? `1 like` : likes.length + ` likes`}`;
     }
   };
 
@@ -114,6 +126,7 @@ const MemoryCard = ({
           'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
         }
         title={title}
+        onClick={() => handleClickPageDetail(id)}
       />
       <div className={classes.imageoverlay1}>
         <Typography>{creator}</Typography>

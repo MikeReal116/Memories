@@ -54,9 +54,7 @@ const Search = () => {
         getMemoriesBySearch({ searchQuery: searchTerm, tags: tags.join(',') })
       );
       history.push(
-        `/memories/search?${searchTerm && `searchQuery=${searchTerm}`}${
-          tags.length && `&tags=${tags.join(',')}`
-        }`
+        `/memories/search?searchQuery=${searchTerm}&tags=${tags.join(',')}`
       );
     }
   };
